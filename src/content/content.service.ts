@@ -106,6 +106,10 @@ export class ContentService {
     return content;
   }
 
+  reset() {
+    this.contents = [];
+  }
+
   private generateContentId() {
     if (this.contents.length === 0) return 1;
     return this.contents[this.contents.length - 1].id + 1;

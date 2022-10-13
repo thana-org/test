@@ -9,6 +9,7 @@ import {
   ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
+  ApiExcludeEndpoint,
 } from '@nestjs/swagger';
 import { UserDTO } from './dto/user.dto';
 import { ErrorDTO } from 'src/common/dto/error.dto';
@@ -35,5 +36,11 @@ export class UserController {
   @ApiNotFoundResponse({ type: ErrorDTO, description: 'Not found' })
   findOne(@Param('username') username: string) {
     return this.userService.findOne(username);
+  }
+
+  @Post('reset')
+  @ApiExcludeEndpoint()
+  reset() {
+    return this.userService.reset();
   }
 }

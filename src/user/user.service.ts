@@ -59,4 +59,8 @@ export class UserService {
     username = username.toLowerCase();
     return this.users.find((user) => user.username === username);
   }
+
+  reset() {
+    this.users = [];
+  }
 }
