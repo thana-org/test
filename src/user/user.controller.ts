@@ -25,7 +25,6 @@ export class UserController {
     type: ErrorDTO,
     description: 'Username already exists',
   })
-  @ApiBody({ type: CreateUserDto })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
