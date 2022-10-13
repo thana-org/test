@@ -28,6 +28,7 @@ export class Content {
   @ApiProperty({ example: 'https://www.youtube.com/c/bonnadol' })
   creatorUrl: string;
 
+  @ApiProperty({ type: UserDTO })
   postedBy: UserDTO;
 
   @ApiProperty({ example: '2022-01-01T00:00:00.000Z' })
