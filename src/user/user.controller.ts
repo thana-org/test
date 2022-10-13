@@ -6,7 +6,6 @@ import {
   ApiOkResponse,
   ApiBadRequestResponse,
   ApiConflictResponse,
-  ApiBody,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiExcludeEndpoint,
