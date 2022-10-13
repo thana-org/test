@@ -43,12 +43,8 @@ export class AuthController {
   @Get('me')
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
-  @ApiOkResponse({
-    description: 'OK',
-    type: UserDTO,
-  })
   @ApiOkResponse({ type: UserDTO, description: 'OK' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiUnauthorizedResponse({ type: ErrorDTO, description: 'Unauthorized' })
   me(@Req() req: Request) {
     return this.userService.findOne(req.username);
   }
