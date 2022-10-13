@@ -14,7 +14,7 @@ async function bootstrap() {
     .addBearerAuth()
     .addTag('auth')
     .addTag('user')
-    .addTag('videos')
+    .addTag('content')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
