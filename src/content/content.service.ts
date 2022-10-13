@@ -48,6 +48,7 @@ export class ContentService {
     content.creatorUrl = creatorUrl;
     content.postedBy = postedBy;
     content.createdAt = createdAt;
+    content.updatedAt = createdAt;
 
     this.contents.push(content);
 
@@ -87,6 +88,7 @@ export class ContentService {
 
     if (comment) content.comment = comment;
     if (rating) content.rating = rating;
+    content.updatedAt = new Date();
 
     return content;
   }
@@ -128,9 +130,11 @@ export class ContentService {
       return {
         videoTitle: title,
         videoUrl: url,
-        thumbnailUrl: thumbnail_url,
-        creatorName: author_name,
-        creatorUrl: author_url,
+        thumbnailUrl:
+          thumbnail_url ??
+          'https://placehold.jp/38/fab005/ffffff/480x360.png?text=No+Preview+Available',
+        creatorName: author_name ?? '',
+        creatorUrl: author_url ?? '',
       };
     } catch (err) {
       if (err instanceof BadRequestException) throw err;
