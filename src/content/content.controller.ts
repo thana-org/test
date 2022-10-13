@@ -10,12 +10,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiExcludeEndpoint,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiSecurity,
   ApiServiceUnavailableResponse,
   ApiTags,
@@ -24,7 +24,6 @@ import {
 import { Request } from 'express';
 import { ErrorDTO } from 'src/common/dto/error.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
-import { UserDTO } from 'src/user/dto/user.dto';
 import { ContentService } from './content.service';
 import { AllContentsDTO } from './dto/all-contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
@@ -53,6 +52,7 @@ export class ContentController {
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
   @ApiCreatedResponse({ type: Content, description: 'OK' })
+  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiServiceUnavailableResponse({
     type: Content,
@@ -66,6 +66,7 @@ export class ContentController {
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
   @ApiOkResponse({ type: Content, description: 'OK' })
+  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
   @ApiUnauthorizedResponse({ type: ErrorDTO, description: 'Unauthorized' })
   @ApiForbiddenResponse({ type: ErrorDTO, description: 'Forbidden' })
   @ApiNotFoundResponse({ type: ErrorDTO, description: 'Not found' })
@@ -81,6 +82,7 @@ export class ContentController {
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
   @ApiOkResponse({ type: Content, description: 'OK' })
+  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
   @ApiUnauthorizedResponse({ type: ErrorDTO, description: 'Unauthorized' })
   @ApiForbiddenResponse({ type: ErrorDTO, description: 'Forbidden' })
   @ApiNotFoundResponse({ type: ErrorDTO, description: 'Not found' })
