@@ -118,10 +118,12 @@ export class ContentService {
   private async getVideoDetails(videoUrl: string) {
     try {
       const res = await axios.get<OEmbedResponseDTO>(
-        `https://noembed.com/embed?url=${encodeURIComponent(videoUrl)}`,
+        `https://noembed.com/embed?url=${videoUrl}`,
       );
 
-      const { title, url, thumbnail_url, author_name, author_url } = res.data;
+      const { title, url, thumbnail_url, author_name, author_url, error } =
+        res.data;
+      if (error) throw new BadRequestException('Invalid video link');
 
       return {
         videoTitle: title,
@@ -131,7 +133,7 @@ export class ContentService {
         creatorUrl: author_url,
       };
     } catch (err) {
-      console.error(err);
+      if (err instanceof BadRequestException) throw err;
       throw new ServiceUnavailableException(
         'Content API service is unavailable',
       );

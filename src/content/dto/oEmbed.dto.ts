@@ -1,5 +1,6 @@
 export interface OEmbedResponseDTO {
   url: string;
+  error: string;
   thumbnail_height: number;
   version: string;
   width: number;
