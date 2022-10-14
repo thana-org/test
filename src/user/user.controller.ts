@@ -10,8 +10,8 @@ import {
   ApiNotFoundResponse,
   ApiExcludeEndpoint,
 } from '@nestjs/swagger';
-import { UserDTO } from './dto/user.dto';
-import { ErrorDTO } from 'src/common/dto/error.dto';
+import { UserDto } from './dto/user.dto';
+import { ErrorDto } from 'src/common/dto/error.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -19,10 +19,10 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: UserDTO, description: 'Created' })
-  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
+  @ApiCreatedResponse({ type: UserDto, description: 'Created' })
+  @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
   @ApiConflictResponse({
-    type: ErrorDTO,
+    type: ErrorDto,
     description: 'Username already exists',
   })
   create(@Body() createUserDto: CreateUserDto) {
@@ -30,9 +30,9 @@ export class UserController {
   }
 
   @Get(':username')
-  @ApiOkResponse({ type: UserDTO, description: 'OK' })
-  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
-  @ApiNotFoundResponse({ type: ErrorDTO, description: 'Not found' })
+  @ApiOkResponse({ type: UserDto, description: 'OK' })
+  @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
+  @ApiNotFoundResponse({ type: ErrorDto, description: 'Not found' })
   findOne(@Param('username') username: string) {
     return this.userService.findOne(username);
   }

@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import axios from 'axios';
 import { UserService } from 'src/user/user.service';
-import { AllContentsDTO } from './dto/all-contents.dto';
+import { ContentsDto } from './dto/all-contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
-import { OEmbedResponseDTO } from './dto/oEmbed.dto';
+import { OEmbedResponseDto } from './dto/o-embed.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
 import { Content } from './entities/content.entity';
 
@@ -60,7 +60,7 @@ export class ContentService {
   }
 
   findAll() {
-    const allContents = new AllContentsDTO();
+    const allContents = new ContentsDto();
     allContents.contents = this.contents;
 
     return allContents;
@@ -127,7 +127,7 @@ export class ContentService {
 
   private async getVideoDetails(videoUrl: string) {
     try {
-      const res = await axios.get<OEmbedResponseDTO>(
+      const res = await axios.get<OEmbedResponseDto>(
         `https://noembed.com/embed?url=${videoUrl}`,
       );
 

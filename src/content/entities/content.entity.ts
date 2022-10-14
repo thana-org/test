@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserDTO } from 'src/user/dto/user.dto';
+import { UserDto } from 'src/user/dto/user.dto';
 
 export class Content {
   @ApiProperty({ example: 1 })
@@ -28,8 +28,8 @@ export class Content {
   @ApiProperty({ example: 'https://www.youtube.com/c/bonnadol' })
   creatorUrl: string;
 
-  @ApiProperty({ type: UserDTO })
-  postedBy: UserDTO;
+  @ApiProperty({ type: UserDto })
+  postedBy: UserDto;
 
   @ApiProperty({ example: '2022-01-01T00:00:00.000Z' })
   createdAt: Date;

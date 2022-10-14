@@ -6,9 +6,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
 import { UserService } from '../user/user.service';
-import { CredentialDTO } from './dto/credential.dto';
+import { CredentialDto } from './dto/credential.dto';
 import { JWTTokenPayload } from './dto/jwt-token.dto';
-import { LoginDTO } from './dto/login.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +17,8 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async login(loginDTO: LoginDTO) {
-    const { username: rawUsername, password } = loginDTO;
+  async login(loginDto: LoginDto) {
+    const { username: rawUsername, password } = loginDto;
 
     if (!rawUsername || !password)
       throw new BadRequestException('`username` and `password` is required');
@@ -33,7 +33,7 @@ export class AuthService {
     if (!passwordValid)
       throw new UnauthorizedException('Username or password is invalid');
 
-    const credential = new CredentialDTO();
+    const credential = new CredentialDto();
     credential.accessToken = this.generateToken(username);
 
     return credential;

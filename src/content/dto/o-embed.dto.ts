@@ -1,4 +1,4 @@
-export interface OEmbedResponseDTO {
+export interface OEmbedResponseDto {
   url: string;
   error: string;
   thumbnail_height: number;
