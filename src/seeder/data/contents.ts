@@ -11,7 +11,7 @@ export const videosUrl = [
   'https://www.youtube.com/watch?v=QyhrOruvT1c',
   'https://www.youtube.com/watch?v=zj4dW3_2mgo',
   'https://www.youtube.com/watch?v=X2RiPRRGCdc',
-  'https://www.youtube.com/watch?v=czvDyFfVoVU',
+  'https://www.youtube.com/watch?v=gDTDFz0PL78',
   'https://www.youtube.com/watch?v=8KKsEfIZHck',
   'https://www.youtube.com/watch?v=IkxhsTwNybU',
 ];

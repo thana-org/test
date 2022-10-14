@@ -12,11 +12,11 @@ export class SeederService {
     private readonly contentService: ContentService,
   ) {}
 
-  seed() {
-    users.forEach(async (user) => {
+  async seed() {
+    for (const user of users) {
       await this.userService.create(user);
-    });
-    videosUrl.forEach(async (videoUrl) => {
+    }
+    for (const videoUrl of videosUrl) {
       const content = new CreateContentDto();
       content.videoUrl = videoUrl;
       content.rating = 5;
@@ -25,6 +25,6 @@ export class SeederService {
       const username = ['john', 'jane', 'jan'][Math.floor(Math.random() * 3)];
 
       await this.contentService.create(content, username);
-    });
+    }
   }
 }
