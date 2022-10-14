@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -91,6 +92,7 @@ export class ContentController {
   }
 
   @Post('reset')
+  @HttpCode(200)
   @ApiExcludeEndpoint()
   reset() {
     return this.contentService.reset();
