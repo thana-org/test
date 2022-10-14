@@ -61,7 +61,7 @@ export class ContentService {
 
   findAll() {
     const allContents = new ContentsDto();
-    allContents.contents = this.contents;
+    allContents.contents = [...this.contents].reverse();
 
     return allContents;
   }
