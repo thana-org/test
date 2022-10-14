@@ -3,5 +3,5 @@ import { Content } from '../entities/content.entity';
 
 export class ContentsDto {
   @ApiProperty({ type: [Content] })
-  contents: Content[];
+  data: Content[];
 }

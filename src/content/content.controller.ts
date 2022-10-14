@@ -26,7 +26,7 @@ import { Request } from 'express';
 import { ErrorDto } from 'src/common/dto/error.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { ContentService } from './content.service';
-import { ContentsDto } from './dto/all-contents.dto';
+import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
 import { Content } from './entities/content.entity';

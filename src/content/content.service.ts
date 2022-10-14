@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import axios from 'axios';
 import { UserService } from 'src/user/user.service';
-import { ContentsDto } from './dto/all-contents.dto';
+import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { OEmbedResponseDto } from './dto/o-embed.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
@@ -61,7 +61,7 @@ export class ContentService {
 
   findAll() {
     const allContents = new ContentsDto();
-    allContents.contents = [...this.contents].reverse();
+    allContents.data = [...this.contents].reverse();
 
     return allContents;
   }
