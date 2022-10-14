@@ -30,6 +30,10 @@ export class ContentService {
       throw new BadRequestException(
         '`rating` must be an integer between 0 and 5',
       );
+    if (comment.length > 280)
+      throw new BadRequestException(
+        '`comment` must be less than or equal to 280 characters',
+      );
 
     const { videoTitle, videoUrl, thumbnailUrl, creatorName, creatorUrl } =
       await this.getVideoDetails(rawVideoUrl);
@@ -84,6 +88,10 @@ export class ContentService {
     if (typeof rating !== 'undefined' && ![0, 1, 2, 3, 4, 5].includes(rating))
       throw new BadRequestException(
         '`rating` must be an integer between 0 and 5',
+      );
+    if (comment.length > 280)
+      throw new BadRequestException(
+        '`comment` must be less than or equal to 280 characters',
       );
 
     if (comment) content.comment = comment;
