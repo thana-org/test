@@ -21,9 +21,20 @@ services:
       - traefik
     labels:
       - traefik.enable=true
-      - traefik.http.routers.minireg-api.rule=Host(`sharing-session-api.thinc.in.th`)
-      - traefik.http.routers.minireg-api.tls=true
-      - traefik.http.routers.minireg-api.tls.certresolver=letsencrypt
+      - traefik.http.routers.sharing-session-api.rule=Host(`sharing-session-api.thinc.in.th`)
+      - traefik.http.routers.sharing-session-api.tls=true
+      - traefik.http.routers.sharing-session-api.tls.certresolver=letsencrypt
+  sharing-session:
+    image: ghcr.io/thinc-org/react-sharing-session-2022:main
+    container_name: sharing-session
+    restart: always
+    networks:
+      - traefik-net
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sharing-session.rule=Host(`sharing-session.thinc.in.th`)
+      - traefik.http.routers.sharing-session.tls=true
+      - traefik.http.routers.sharing-session.tls.certresolver=letsencrypt
 
 networks:
   traefik:
