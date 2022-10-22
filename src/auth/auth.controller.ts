@@ -15,13 +15,13 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Request } from 'express';
-import { ErrorDTO } from 'src/common/dto/error.dto';
+import { ErrorDto } from 'src/common/dto/error.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
-import { UserDTO } from 'src/user/dto/user.dto';
+import { UserDto } from 'src/user/dto/user.dto';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
-import { CredentialDTO } from './dto/credential.dto';
-import { LoginDTO } from './dto/login.dto';
+import { CredentialDto } from './dto/credential.dto';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -33,22 +33,18 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  @ApiOkResponse({ type: CredentialDTO, description: 'OK' })
-  @ApiBadRequestResponse({ type: ErrorDTO, description: 'Bad Request' })
-  @ApiUnauthorizedResponse({ type: ErrorDTO, description: 'Unauthorized' })
-  async login(@Body() loginDto: LoginDTO) {
+  @ApiOkResponse({ type: CredentialDto, description: 'OK' })
+  @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
+  @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
+  async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
   @Get('me')
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
-  @ApiOkResponse({
-    description: 'OK',
-    type: UserDTO,
-  })
-  @ApiOkResponse({ type: UserDTO, description: 'OK' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiOkResponse({ type: UserDto, description: 'OK' })
+  @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
   me(@Req() req: Request) {
     return this.userService.findOne(req.username);
   }

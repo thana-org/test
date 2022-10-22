@@ -1,0 +1,17 @@
+export const videosUrl = [
+  'https://www.youtube.com/watch?v=L5SSKx7H-gA',
+  'https://www.youtube.com/watch?v=9zXeLZTBd80',
+  'https://www.youtube.com/watch?v=5EMgyFe22LE',
+  'https://www.youtube.com/watch?v=zEt0-5fgy6I',
+  'https://www.youtube.com/watch?v=qDrMDFhTdTw',
+  'https://www.youtube.com/watch?v=LZWKYShMsus',
+  'https://www.youtube.com/watch?v=WleNnd42Boc',
+  'https://www.youtube.com/watch?v=zdgemowocu8',
+  'https://www.youtube.com/watch?v=ILU9NbWn4t0',
+  'https://www.youtube.com/watch?v=QyhrOruvT1c',
+  'https://www.youtube.com/watch?v=zj4dW3_2mgo',
+  'https://www.youtube.com/watch?v=X2RiPRRGCdc',
+  'https://www.youtube.com/watch?v=gDTDFz0PL78',
+  'https://www.youtube.com/watch?v=8KKsEfIZHck',
+  'https://www.youtube.com/watch?v=IkxhsTwNybU',
+];

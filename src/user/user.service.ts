@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { hash } from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserDTO } from './dto/user.dto';
+import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -47,16 +47,20 @@ export class UserService {
     const user = this.users.find((user) => user.username === username);
     if (!user) throw new NotFoundException(`User ${username} not found`);
 
-    const userDTO = new UserDTO();
-    userDTO.username = user.username;
-    userDTO.name = user.name;
-    userDTO.registeredAt = user.registeredAt;
+    const userDto = new UserDto();
+    userDto.username = user.username;
+    userDto.name = user.name;
+    userDto.registeredAt = user.registeredAt;
 
-    return userDTO;
+    return userDto;
   }
 
   findOneWithPassword(username: string) {
     username = username.toLowerCase();
     return this.users.find((user) => user.username === username);
+  }
+
+  reset() {
+    this.users = [];
   }
 }
