@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import { ContentDto } from './dto/content.dto';
 import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { OEmbedResponseDto } from './dto/o-embed.dto';
