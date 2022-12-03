@@ -61,7 +61,9 @@ export class ContentService {
   }
 
   async findAll(): Promise<ContentsDto> {
-    const contents = await this.contentRepository.find();
+    const contents = await this.contentRepository.find({
+      order: { id: 'DESC' },
+    });
 
     contents.forEach((content) => {
       delete content.postedBy.password;
