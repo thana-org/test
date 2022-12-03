@@ -8,12 +8,10 @@ import {
   Delete,
   Req,
   UseGuards,
-  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiExcludeEndpoint,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -89,12 +87,5 @@ export class ContentController {
   @ApiNotFoundResponse({ type: ErrorDto, description: 'Not found' })
   remove(@Param('id') id: string, @Req() req: Request) {
     return this.contentService.remove(+id, req.username);
-  }
-
-  @Post('reset')
-  @HttpCode(200)
-  @ApiExcludeEndpoint()
-  reset() {
-    return this.contentService.reset();
   }
 }

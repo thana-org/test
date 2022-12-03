@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
@@ -8,7 +8,6 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
-  ApiExcludeEndpoint,
 } from '@nestjs/swagger';
 import { UserDto } from './dto/user.dto';
 import { ErrorDto } from 'src/common/dto/error.dto';
@@ -34,13 +33,6 @@ export class UserController {
   @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
   @ApiNotFoundResponse({ type: ErrorDto, description: 'Not found' })
   findOne(@Param('username') username: string) {
-    return this.userService.findOne(username);
-  }
-
-  @Post('reset')
-  @HttpCode(200)
-  @ApiExcludeEndpoint()
-  reset() {
-    return this.userService.reset();
+    return this.userService.findOnePublicInfo(username);
   }
 }

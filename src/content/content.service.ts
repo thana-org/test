@@ -5,8 +5,11 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { UserService } from 'src/user/user.service';
+import { Repository } from 'typeorm';
+import { ContentDto } from './dto/content.dto';
 import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { OEmbedResponseDto } from './dto/o-embed.dto';
@@ -15,9 +18,10 @@ import { Content } from './entities/content.entity';
 
 @Injectable()
 export class ContentService {
-  constructor(private readonly userService: UserService) {}
-
-  private contents: Content[] = [];
+  constructor(
+    private readonly userService: UserService,
+    @InjectRepository(Content) private contentRepository: Repository<Content>,
+  ) {}
 
   async create(createContentDto: CreateContentDto, username: string) {
     const { videoUrl: rawVideoUrl, comment, rating } = createContentDto;
@@ -37,12 +41,10 @@ export class ContentService {
 
     const { videoTitle, videoUrl, thumbnailUrl, creatorName, creatorUrl } =
       await this.getVideoDetails(rawVideoUrl);
-    const postedBy = this.userService.findOne(username);
+    const postedBy = await this.userService.findOne(username);
     const createdAt = new Date();
-    const contentId = this.generateContentId();
 
     const content = new Content();
-    content.id = contentId;
     content.videoTitle = videoTitle;
     content.videoUrl = videoUrl;
     content.comment = comment;
@@ -54,28 +56,40 @@ export class ContentService {
     content.createdAt = createdAt;
     content.updatedAt = createdAt;
 
-    this.contents.push(content);
+    await this.contentRepository.save(content);
 
-    return content;
+    return this.findOne(content.id);
   }
 
-  findAll() {
-    const allContents = new ContentsDto();
-    allContents.data = [...this.contents].reverse();
+  async findAll(): Promise<ContentsDto> {
+    const contents = await this.contentRepository.find();
 
-    return allContents;
+    contents.forEach((content) => {
+      delete content.postedBy.password;
+    });
+
+    const contentsDto = new ContentsDto();
+    contentsDto.data = contents;
+
+    return contentsDto;
   }
 
   async findOne(id: number) {
     if (!id) throw new BadRequestException('`id` is required');
 
-    const content = this.contents.find((content) => content.id === id);
+    const content = await this.contentRepository.findOneBy({ id });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
+
+    delete content.postedBy.password;
     return content;
   }
 
-  update(id: number, updateContentDto: UpdateContentDto, username: string) {
-    const content = this.contents.find((content) => content.id === id);
+  async update(
+    id: number,
+    updateContentDto: UpdateContentDto,
+    username: string,
+  ) {
+    const content = await this.contentRepository.findOneBy({ id });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
     if (content.postedBy.username !== username)
       throw new ForbiddenException(
@@ -98,31 +112,26 @@ export class ContentService {
     if (rating) content.rating = rating;
     content.updatedAt = new Date();
 
+    await this.contentRepository.save(content);
+
+    delete content.postedBy.password;
     return content;
   }
 
-  remove(id: number, username) {
+  async remove(id: number, username) {
     if (!id) throw new BadRequestException('`id` is required');
 
-    const content = this.contents.find((content) => content.id === id);
+    const content = await this.contentRepository.findOneBy({ id });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
     if (content.postedBy.username !== username)
       throw new ForbiddenException(
         `User ${username} is not the owner of this content`,
       );
 
-    this.contents = this.contents.filter((content) => content.id !== id);
+    await this.contentRepository.delete({ id });
 
+    delete content.postedBy.password;
     return content;
-  }
-
-  reset() {
-    this.contents = [];
-  }
-
-  private generateContentId() {
-    if (this.contents.length === 0) return 1;
-    return this.contents[this.contents.length - 1].id + 1;
   }
 
   private async getVideoDetails(videoUrl: string) {

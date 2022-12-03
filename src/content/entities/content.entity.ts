@@ -1,39 +1,43 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserDto } from 'src/user/dto/user.dto';
+import { User } from 'src/user/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class Content {
-  @ApiProperty({ example: 1 })
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({
-    example: 'ฉลามชอบงับคุณ - Bonnadol Feat IIVY B [Official MV]',
-  })
+  @Column()
   videoTitle: string;
 
-  @ApiProperty({ example: 'https://www.youtube.com/watch?v=IkxhsTwNybU' })
+  @Column()
   videoUrl: string;
 
-  @ApiProperty({ example: 'แนะนำเลยครับ' })
+  @Column()
   comment: string;
 
-  @ApiProperty({ example: 5.0, maximum: 5.0, minimum: 0.0 })
+  @Column({ type: 'int' })
   rating: number;
 
-  @ApiProperty({ example: 'https://i.ytimg.com/vi/IkxhsTwNybU/hqdefault.jpg' })
+  @Column()
   thumbnailUrl: string;
 
-  @ApiProperty({ example: 'Bonnadol' })
+  @Column()
   creatorName: string;
 
-  @ApiProperty({ example: 'https://www.youtube.com/c/bonnadol' })
+  @Column()
   creatorUrl: string;
 
-  @ApiProperty({ type: UserDto })
-  postedBy: UserDto;
+  @ManyToOne(() => User, (user) => user.id, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  postedBy: User;
 
-  @ApiProperty({ example: '2022-01-01T00:00:00.000Z' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @ApiProperty({ example: '2022-01-01T00:00:00.000Z' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 }
