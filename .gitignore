@@ -37,3 +37,6 @@ lerna-debug.log*
 # env file
 .env
 .env.local
+
+# TypeORM Datasource
+ds.ts
