@@ -28,7 +28,6 @@ import { ContentDto } from './dto/content.dto';
 import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
-import { Content } from './entities/content.entity';
 
 @ApiTags('content')
 @Controller('content')
