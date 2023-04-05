@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
+  @ApiProperty({ example: 'b9e1a5c5-ff16-4e50-8bb3-cb76d8900f70' })
+  id: number;
+
   @ApiProperty({ example: 'john' })
   username: string;
 

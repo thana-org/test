@@ -46,6 +46,6 @@ export class AuthController {
   @ApiOkResponse({ type: UserDto, description: 'OK' })
   @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
   me(@Req() req: Request) {
-    return this.userService.findOne(req.username);
+    return this.userService.findOnePublicInfo(req.username);
   }
 }

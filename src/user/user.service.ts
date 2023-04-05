@@ -4,14 +4,19 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcryptjs';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [];
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { username: rawUsername, name, password } = createUserDto;
@@ -23,10 +28,8 @@ export class UserService {
 
     const username = rawUsername.toLowerCase();
 
-    const duplicateUsername = this.users.some(
-      (user) => user.username === username,
-    );
-    if (duplicateUsername)
+    const duplicateUser = await this.findOne(username);
+    if (duplicateUser)
       throw new ConflictException(`Username ${username} already exists`);
 
     const user = new User();
@@ -35,32 +38,27 @@ export class UserService {
     user.password = await hash(password, 10);
     user.registeredAt = new Date();
 
-    this.users.push(user);
+    await this.userRepository.save(user);
 
-    return this.findOne(username);
+    return this.findOnePublicInfo(username);
   }
 
-  findOne(username: string) {
-    if (!username) throw new BadRequestException('`username` is required');
-    username = username.toLowerCase();
+  findOne(username: string): Promise<User> {
+    return this.userRepository.findOneBy({ username });
+  }
 
-    const user = this.users.find((user) => user.username === username);
+  async findOnePublicInfo(username: string): Promise<UserDto> {
+    if (!username) throw new BadRequestException('`username` is required');
+
+    const user = await this.userRepository.findOneBy({ username });
     if (!user) throw new NotFoundException(`User ${username} not found`);
 
     const userDto = new UserDto();
+    userDto.id = user.id;
     userDto.username = user.username;
     userDto.name = user.name;
     userDto.registeredAt = user.registeredAt;
 
     return userDto;
-  }
-
-  findOneWithPassword(username: string) {
-    username = username.toLowerCase();
-    return this.users.find((user) => user.username === username);
-  }
-
-  reset() {
-    this.users = [];
   }
 }

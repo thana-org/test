@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Content } from '../entities/content.entity';
+import { ContentDto } from './content.dto';
 
 export class ContentsDto {
-  @ApiProperty({ type: [Content] })
-  data: Content[];
+  @ApiProperty({ type: [ContentDto] })
+  data: ContentDto[];
 }

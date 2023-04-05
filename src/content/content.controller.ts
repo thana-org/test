@@ -8,12 +8,10 @@ import {
   Delete,
   Req,
   UseGuards,
-  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiExcludeEndpoint,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -26,10 +24,10 @@ import { Request } from 'express';
 import { ErrorDto } from 'src/common/dto/error.dto';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import { ContentService } from './content.service';
+import { ContentDto } from './dto/content.dto';
 import { ContentsDto } from './dto/contents.dto';
 import { CreateContentDto } from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
-import { Content } from './entities/content.entity';
 
 @ApiTags('content')
 @Controller('content')
@@ -43,8 +41,8 @@ export class ContentController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: Content, description: 'OK' })
-  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiOkResponse({ type: ContentDto, description: 'OK' })
+  @ApiNotFoundResponse({ type: ErrorDto, description: 'Not found' })
   findOne(@Param('id') id: string) {
     return this.contentService.findOne(+id);
   }
@@ -52,11 +50,11 @@ export class ContentController {
   @Post()
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
-  @ApiCreatedResponse({ type: Content, description: 'OK' })
+  @ApiCreatedResponse({ type: ContentDto, description: 'Created' })
   @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
   @ApiServiceUnavailableResponse({
-    type: Content,
+    type: ErrorDto,
     description: 'Service unavailable',
   })
   create(@Body() createContentDto: CreateContentDto, @Req() req: Request) {
@@ -66,7 +64,7 @@ export class ContentController {
   @Patch(':id')
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
-  @ApiOkResponse({ type: Content, description: 'OK' })
+  @ApiOkResponse({ type: ContentDto, description: 'OK' })
   @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
   @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
   @ApiForbiddenResponse({ type: ErrorDto, description: 'Forbidden' })
@@ -82,19 +80,12 @@ export class ContentController {
   @Delete(':id')
   @UseGuards(AuthGuard)
   @ApiSecurity('bearer')
-  @ApiOkResponse({ type: Content, description: 'OK' })
+  @ApiOkResponse({ type: ContentDto, description: 'OK' })
   @ApiBadRequestResponse({ type: ErrorDto, description: 'Bad Request' })
   @ApiUnauthorizedResponse({ type: ErrorDto, description: 'Unauthorized' })
   @ApiForbiddenResponse({ type: ErrorDto, description: 'Forbidden' })
   @ApiNotFoundResponse({ type: ErrorDto, description: 'Not found' })
   remove(@Param('id') id: string, @Req() req: Request) {
     return this.contentService.remove(+id, req.username);
-  }
-
-  @Post('reset')
-  @HttpCode(200)
-  @ApiExcludeEndpoint()
-  reset() {
-    return this.contentService.reset();
   }
 }
