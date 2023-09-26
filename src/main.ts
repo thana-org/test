@@ -10,7 +10,7 @@ async function bootstrap() {
     .setDescription(
       'LearnHub is a demo API service for React Sharing Session 2022 by Thinc.',
     )
-    .setVersion('1.0.1')
+    .setVersion('1.0.2')
     .setExternalDoc(
       'GitHub Repository',
       'https://github.com/thinc-org/react-sharing-session-api-2022',
