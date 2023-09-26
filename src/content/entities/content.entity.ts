@@ -33,6 +33,9 @@ export class Content {
   })
   postedBy: User;
 
+  @Column({ default: true, select: false })
+  published: boolean;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

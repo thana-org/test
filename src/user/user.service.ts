@@ -44,7 +44,10 @@ export class UserService {
   }
 
   findOne(username: string): Promise<User> {
-    return this.userRepository.findOneBy({ username });
+    return this.userRepository.findOne({
+      where: { username },
+      select: ['id', 'username', 'name', 'password', 'registeredAt'],
+    });
   }
 
   async findOnePublicInfo(username: string): Promise<UserDto> {

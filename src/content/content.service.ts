@@ -63,10 +63,7 @@ export class ContentService {
   async findAll(): Promise<ContentsDto> {
     const contents = await this.contentRepository.find({
       order: { id: 'DESC' },
-    });
-
-    contents.forEach((content) => {
-      delete content.postedBy.password;
+      where: { published: true },
     });
 
     const contentsDto = new ContentsDto();
@@ -78,10 +75,12 @@ export class ContentService {
   async findOne(id: number) {
     if (!id) throw new BadRequestException('`id` is required');
 
-    const content = await this.contentRepository.findOneBy({ id });
+    const content = await this.contentRepository.findOneBy({
+      id,
+      published: true,
+    });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
 
-    delete content.postedBy.password;
     return content;
   }
 
@@ -90,7 +89,10 @@ export class ContentService {
     updateContentDto: UpdateContentDto,
     username: string,
   ) {
-    const content = await this.contentRepository.findOneBy({ id });
+    const content = await this.contentRepository.findOneBy({
+      id,
+      published: true,
+    });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
     if (content.postedBy.username !== username)
       throw new ForbiddenException(
@@ -115,14 +117,16 @@ export class ContentService {
 
     await this.contentRepository.save(content);
 
-    delete content.postedBy.password;
     return content;
   }
 
   async remove(id: number, username) {
     if (!id) throw new BadRequestException('`id` is required');
 
-    const content = await this.contentRepository.findOneBy({ id });
+    const content = await this.contentRepository.findOneBy({
+      id,
+      published: true,
+    });
     if (!content) throw new NotFoundException(`Content id ${id} not found`);
     if (content.postedBy.username !== username)
       throw new ForbiddenException(
@@ -131,7 +135,6 @@ export class ContentService {
 
     await this.contentRepository.delete({ id });
 
-    delete content.postedBy.password;
     return content;
   }
 
