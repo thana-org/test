@@ -2,14 +2,11 @@ name: Build and Publish Image
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   build:
     name: Build and Publish Image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     permissions:
       contents: read
